@@ -1,5 +1,5 @@
 # main text of home
-name: Diah Ayu Irawati
+name: Diah Ayu Iraw
 bio: A Girl who travels the world eating noodles
 
 # twitter summary info
@@ -34,8 +34,8 @@ disqus:
   categories: [blog, project] # only show disqus for posts that have these categories
 
 # if you don't have any of social below, comment the line
-facebook: myfacebook
-twitter: mytwitter
+#facebook: myfacebook
+#twitter: mytwitter
 # instagram: myinstagram
 # pinterest: mypinterest
 # linkedin: mylinkedin
@@ -47,14 +47,15 @@ github: mygithub
 # stackoverflow: 7044681/mystackoverflow
 # quora: userquora
 # reddit: username
-medium: medium
+# medium: medium
 # vimeo: myvimeo
 # lanyrd: mylanyrd
-email: myemail@gmail.com
+behance: mylanyrd
+email: diahayuiraw@gmail.com
 
 authors:
   johndoe:
-    name: Diah Ayu Irawati
+    name: Diah Ayu Iraw
     bio: A Girl who travels the world eating noodles
     external-image: false
     picture: assets/images/profile.jpg
