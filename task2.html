@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task 2 Web Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .task-container {
+            width: 60%;
+            margin: 30px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            margin-top: 0;
+            font-size: 24px;
+            color: #4A4A4A;
+        }
+
+        h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .instructions ol, 
+        .instructions ul {
+            padding-left: 20px;
+        }
+
+        .instructions a {
+            color: #1E90FF;
+            text-decoration: none;
+        }
+
+        .instructions a:hover {
+            text-decoration: underline;
+        }
+
+        .code-section {
+            margin-top: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-family: monospace;
+        }
+
+        button {
+            background-color: #1E90FF;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #1C86EE;
+        }
+    </style>
+</head>
+<body>
+    <div class="task-container">
+        <h2>TASK 2</h2>
+        <div class="instructions">
+            <h3>Instruction:</h3>
+            <ol>
+                <li>Open your IDE tools: Visual Studio Code</li>
+      
+                <li>Navigate to the Design: 
+                    <a href="#">Figma link</a> 
+                    Or go to this 
+                    <a href="#">document</a> 
+                    here if you don’t have Figma account
+                </li>
+                <li>Navigate to the Assistance Tools: 
+                    <a href="#">Click Here</a> 
+                    Or go to this 
+                    <a href="#">document</a> 
+                    here if you don’t have Figma account
+                </li>
+                <li>Make a card component as the design above using the material design. 
+                    Here is the 
+                    <a href="#">material documentation</a>
+                </li>
+            </ol>
+        </div>
+        <div class="code-section">
+            <h3>YOUR CODE</h3>
+            <label for="component-ts">Your.component.ts</label>
+            <textarea id="component-ts" rows="3"></textarea>
+            
+            <label for="component-css">Your.component.scss or css</label>
+            <textarea id="component-css" rows="3"></textarea>
+
+            <label for="component-spec">Your.component.spec.ts</label>
+            <textarea id="component-spec" rows="3"></textarea>
+
+            <label for="component-ts-2">Your.component.ts</label>
+            <textarea id="component-ts-2" rows="3"></textarea>
+
+            <button id="submit-btn">BTN : DONE</button>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('submit-btn').addEventListener('click', function() {
+            // Gather the values from the text areas
+            const componentTs = document.getElementById('component-ts').value;
+            const componentCss = document.getElementById('component-css').value;
+            const componentSpec = document.getElementById('component-spec').value;
+            const componentTs2 = document.getElementById('component-ts-2').value;
+
+            // Create an object to hold the data
+            const formData = {
+                componentTs: componentTs,
+                componentCss: componentCss,
+                componentSpec: componentSpec,
+                componentTs2: componentTs2
+            };
+
+            // Convert the object to JSON
+            const jsonData = JSON.stringify(formData);
+
+            // Send the data using fetch
+            fetch('your-server-endpoint-url', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: jsonData
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                alert('Data submitted successfully!');
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert('There was an error submitting the data.');
+            });
+        });
+    </script>
+</body>
+</html>
