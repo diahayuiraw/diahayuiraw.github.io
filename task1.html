@@ -6,7 +6,7 @@
     <title>Task 1 Web Page</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
             background-color: #f4f4f4;
             color: #333;
             margin: 0;
@@ -79,6 +79,42 @@
         button:hover {
             background-color: #1C86EE;
         }
+
+        .code-block {
+            background-color: #f7f7f7;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', Courier, monospace;
+            overflow-x: auto;
+            margin-bottom: 20px;
+            display: none; /* Initially hidden */
+        }
+
+        .code-block code {
+            display: block;
+            white-space: pre-wrap;
+            line-height: 1.6;
+            color: #2b10c1;
+            background-color: #f9f2f4;
+        }
+
+        .toggle-button {
+            margin-bottom: 10px;
+            cursor: pointer;
+            color: #1E90FF;
+            text-decoration: none;
+            font-size: 16px;
+            display: inline-block;
+            background-color: #fff;
+            border: 1px solid #1E90FF;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .toggle-button:hover {
+            background-color: #f0f0f0;
+        }
     </style>
 </head>
 <body>
@@ -88,30 +124,32 @@
             <h3>Instruction:</h3>
             <ol>
                 <li>Open your IDE tools: Visual Studio Code</li>
-                <li>Switch language to Angular</li>
-                <li>Install custom material design system
-                    <ul>
-                        <li>npm install -g @angular/cli</li>
-                        <li>npm audit fix</li>
-                        <li>ng add @angular/material</li>
-                        <li>Select Custom</li>
-                        <li>To test your code : ng serve</li>
-                    </ul>
-                </li>
-                <li>Navigate to the Design: 
-                    <a href="#">Figma link</a> 
-                    Or go to this 
-                    <a href="#">document</a> 
-                    here if you don’t have Figma account
-                </li>
-                <li>Make a card component as the design above using the material design. 
-                    Here is the 
-                    <a href="#">material documentation</a>
-                </li>
-            </ol>
+                <li>Install custom Angular and Material Design:</li>
+            <a class="toggle-button" onclick="toggleCodeBlock()">Show Guide</a>
+            <div id="codeBlock" class="code-block">
+                <code>
+npm install -g @angular/cli
+npm audit fix
+ng add @angular/material
+Select Custom
+To test your code : ng serve
+                </code>
+            </div>
+            <li>Navigate to the Design File:
+                <a href="https://www.figma.com/design/IaXaSQwGIUeG1NiKD3eCqI/Case-Study?node-id=25-1316&t=AE4WBBSTENXxbXfF-1">Figma link</a>
+                Or go to this
+                <a href="#">document here</a>
+                if you don’t have Figma account
+            </li>
+            </li>
+            <li>Make a card component as the design above using the material design.
+                Here is the
+                <a href="https://material.angular.io/components/card/overview">material documentation</a>
+            </li>
+        </ol>
         </div>
         <div class="code-section">
-            <h3>YOUR CODE</h3>
+            <h3>YOUR TASK SUBMISSION - Paste here</h3>
             <label for="component-ts">Your.component.ts</label>
             <textarea id="component-ts" rows="3"></textarea>
             
@@ -156,7 +194,7 @@
 
             // Create an object to hold the data, including the updated from_name
             const templateParams = {
-                from_name: `Submission #${submissionCount} at ${timestamp}`, // Updated sender name with submission count and timestamp
+                from_name: `diahayuiraw@gmail.com - Submission #${submissionCount} at ${timestamp}`, // Updated sender name with submission count and timestamp
                 to_name: "diahayuiraw@gmail.com", // Recipient email address
                 subject: "Code submission",
                 component_ts: componentTs,
@@ -176,6 +214,20 @@
                    alert('Failed to send email.');
                 });
         });
+
+        // Function to toggle the visibility of the code block
+        function toggleCodeBlock() {
+            const codeBlock = document.getElementById("codeBlock");
+            const toggleButton = document.querySelector(".toggle-button");
+
+            if (codeBlock.style.display === "none") {
+                codeBlock.style.display = "block";
+                toggleButton.textContent = "Hide Guide";
+            } else {
+                codeBlock.style.display = "none";
+                toggleButton.textContent = "Show Guide";
+            }
+        }
     </script>
 </body>
 </html>
