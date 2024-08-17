@@ -115,6 +115,18 @@
         .toggle-button:hover {
             background-color: #f0f0f0;
         }
+
+        .image-container {
+            display: none; /* Initially hidden */
+            margin-top: 10px;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
     </style>
 </head>
 <body>
@@ -124,8 +136,7 @@
             <h3>Instruction:</h3>
             <ol>
                 <li>Open your IDE tools: Visual Studio Code</li>
-                <li>Install custom Angular and Material Design:</li>
-            <a class="toggle-button" onclick="toggleCodeBlock()">Show Guide</a>
+                <li>Setup custom Angular and Material Design <a class="toggle-button2" onclick="toggleCodeBlock()">Show Guide</a> </li>
             <div id="codeBlock" class="code-block">
                 <code>
 npm install -g @angular/cli
@@ -133,18 +144,20 @@ npm audit fix
 ng add @angular/material
 Select Custom
 To test your code : ng serve
+<li>Make a card component as the design above using the material design and submit the code below.
+    Here is the
+    <a href="https://material.angular.io/components/card/overview">material documentation</a>
+</li>
                 </code>
             </div>
             <li>Navigate to the Design File:
                 <a href="https://www.figma.com/design/IaXaSQwGIUeG1NiKD3eCqI/Case-Study?node-id=25-1316&t=AE4WBBSTENXxbXfF-1">Figma link</a>
-                Or go to this
-                <a href="#">document here</a>
-                if you don’t have Figma account
-            </li>
-            </li>
-            <li>Make a card component as the design above using the material design and submit the code below.
-                Here is the
-                <a href="https://material.angular.io/components/card/overview">material documentation</a>
+                Or if you don’t have a Figma account
+                <a class="toggle-button2" onclick="toggleImage()">Show Design</a>
+                <div id="imageContainer" class="image-container">
+                    Assets material design icon<a href="https://material.angular.io/components/icon/overview"> documentation</a>
+                    <img src="Card Custom A.png" alt="Design Image">
+                </div>
             </li>
         </ol>
         </div>
@@ -168,7 +181,7 @@ To test your code : ng serve
 
     <!-- Update EmailJS SDK Script -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    
+    <script type="text/javascript" src="https://api.useberry.com/integrations/liveUrl/scripts/useberryScript.js"></script>
     <script type="text/javascript">
         // Initialize EmailJS
         (function(){
@@ -226,6 +239,20 @@ To test your code : ng serve
             } else {
                 codeBlock.style.display = "none";
                 toggleButton.textContent = "Show Guide";
+            }
+        }
+
+        // Function to toggle the visibility of the image
+        function toggleImage() {
+            const imageContainer = document.getElementById("imageContainer");
+            const toggleButton = document.querySelector(".toggle-button2");
+
+            if (imageContainer.style.display === "none") {
+                imageContainer.style.display = "block";
+                toggleButton.textContent = "Hide Image";
+            } else {
+                imageContainer.style.display = "none";
+                toggleButton.textContent = "Show Image";
             }
         }
     </script>
