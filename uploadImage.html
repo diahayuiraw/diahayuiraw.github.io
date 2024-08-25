@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task 1 Web Page with Image Upload</title>
+    <style>
+        body {
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .task-container {
+            width: 60%;
+            margin: 30px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            margin-top: 0;
+            font-size: 24px;
+            color: #4A4A4A;
+        }
+
+        h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        textarea, input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-family: monospace;
+        }
+
+        button {
+            background-color: #1E90FF;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #1C86EE;
+        }
+
+        .image-preview {
+            margin-top: 20px;
+            display: none;
+        }
+
+        .image-preview img {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="task-container">
+        <h2>Experience Curve Submission</h2>
+        <div class="code-section">
+        
+            <label for="imageUpload">Upload your curve:</label>
+            <input type="file" id="imageUpload" accept="image/*">
+
+            <div class="image-preview" id="imagePreview">
+                <img src="" alt="Image Preview" id="imagePreviewImg">
+            </div>
+
+            <button id="submit-btn">Send your curve!</button>
+        </div>
+    </div>
+
+    <!-- EmailJS SDK Script -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        // Initialize EmailJS
+        (function(){
+            emailjs.init("C-dRLpZWppNwW_DMH"); // Initialize EmailJS with your API key
+        })();
+
+        // Initialize submission counter
+        let submissionCount = 0;
+
+        document.getElementById('submit-btn').addEventListener('click', function() {
+            // Increment submission counter
+            submissionCount++;
+
+            // Get the current timestamp
+            const now = new Date();
+            const timestamp = now.toLocaleString(); // Format: MM/DD/YYYY, HH:MM:SS AM/PM
+
+            // Get the image file
+            const imageUpload = document.getElementById('imageUpload').files[0];
+
+            if (imageUpload) {
+                const reader = new FileReader();
+                reader.onloadend = function() {
+                    // Create an object to hold the data
+                    const templateParams = {
+                        from_name: `diahayuiraw@gmail.com - Submission #${submissionCount} at ${timestamp}`, // Updated sender name with submission count and timestamp
+                        to_name: "diahayuiraw@gmail.com", // Recipient email address
+                        subject: "Code submission with Image",
+                        image_base64: reader.result // Base64 string of the image
+                    };
+
+                    // Send the email using EmailJS
+                    emailjs.send('service_1afpxob', 'template_fiqxaxp', templateParams)
+                        .then(function(response) {
+                            console.log('SUCCESS!', response.status, response.text);
+                            // Redirect to success.html
+                            window.location.href = "success.html";
+                        }, function(error) {
+                            console.log('FAILED...', error);
+                            alert('Failed to send email.');
+                        });
+                };
+                reader.readAsDataURL(imageUpload); // Convert image to Base64 string
+            } else {
+                alert("Please upload an image.");
+            }
+        });
+
+        // Image preview functionality
+        document.getElementById('imageUpload').addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+
+                reader.onload = function() {
+                    document.getElementById('imagePreview').style.display = 'block';
+                    document.getElementById('imagePreviewImg').src = reader.result;
+                };
+
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+</body>
+</html>
