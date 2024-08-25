@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task 2 Web Page</title>
+    <style>
+        body {
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .task-container {
+            width: 60%;
+            margin: 30px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            margin-top: 0;
+            font-size: 24px;
+            color: #4A4A4A;
+        }
+
+        h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .instructions ol, 
+        .instructions ul {
+            padding-left: 20px;
+        }
+
+        .instructions a {
+            color: #1E90FF;
+            text-decoration: none;
+        }
+
+        .instructions a:hover {
+            text-decoration: underline;
+        }
+
+        .code-section {
+            margin-top: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-family: monospace;
+        }
+
+        button {
+            background-color: #1E90FF;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #1C86EE;
+        }
+
+        .code-block {
+            background-color: #f7f7f7;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', Courier, monospace;
+            overflow-x: auto;
+            margin-bottom: 20px;
+            display: none; /* Initially hidden */
+        }
+
+        .code-block code {
+            display: block;
+            white-space: pre-wrap;
+            line-height: 1.6;
+            color: #2b10c1;
+            background-color: #f9f2f4;
+        }
+
+        .toggle-button {
+            margin-bottom: 10px;
+            cursor: pointer;
+            color: #1E90FF;
+            text-decoration: none;
+            font-size: 16px;
+            display: inline-block;
+            background-color: #fff;
+            border: 1px solid #1E90FF;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .toggle-button:hover {
+            background-color: #f0f0f0;
+        }
+
+        .image-container {
+            display: none; /* Initially hidden */
+            margin-top: 10px;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="task-container">
+        <h2>Task 1 Submission </h2>
+        <div class="code-section">
+            <h3>Please paste the code from your local IDE here</h3>
+            <label for="component-ts">Your.component.html</label>
+            <textarea id="component-ts" rows="3"></textarea>
+            
+            <label for="component-css">Your.component.scss or css</label>
+            <textarea id="component-css" rows="3"></textarea>
+
+            <label for="component-spec">Your.component.spec.ts</label>
+            <textarea id="component-spec" rows="3"></textarea>
+
+            <label for="component-ts-2">Your.component.ts</label>
+            <textarea id="component-ts-2" rows="3"></textarea>
+
+            <button id="submit-btn">Send your Code of Task 2</button>
+        </div>
+    </div>
+
+    <!-- Update EmailJS SDK Script -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript" src="https://api.useberry.com/integrations/liveUrl/scripts/useberryScript.js"></script>
+    <script type="text/javascript">
+        // Initialize EmailJS
+        (function(){
+            emailjs.init("C-dRLpZWppNwW_DMH"); // Initialize EmailJS with your API key
+        })();
+
+        // Initialize submission counter
+        let submissionCount = 0;
+
+        document.getElementById('submit-btn').addEventListener('click', function() {
+            // Increment submission counter
+            submissionCount++;
+
+            // Get the current timestamp
+            const now = new Date();
+            const timestamp = now.toLocaleString(); // Format: MM/DD/YYYY, HH:MM:SS AM/PM
+
+            // Gather the values from the text areas
+            const componentTs = document.getElementById('component-ts').value;
+            const componentCss = document.getElementById('component-css').value;
+            const componentSpec = document.getElementById('component-spec').value;
+            const componentTs2 = document.getElementById('component-ts-2').value;
+
+            // Create an object to hold the data, including the updated from_name
+            const templateParams = {
+                from_name: `diahayuiraw@gmail.com - Submission #${submissionCount} at ${timestamp}`, // Updated sender name with submission count and timestamp
+                to_name: "diahayuiraw@gmail.com", // Recipient email address
+                subject: "Code submission",
+                component_ts: componentTs,
+                component_css: componentCss,
+                component_spec: componentSpec,
+                component_ts2: componentTs2
+            };
+
+            // Send the email using EmailJS
+            emailjs.send('service_1afpxob', 'template_fiqxaxp', templateParams)
+                .then(function(response) {
+                   console.log('SUCCESS!', response.status, response.text);
+                   // Redirect to success.html
+                   window.location.href = "success.html";
+                }, function(error) {
+                   console.log('FAILED...', error);
+                   alert('Failed to send email.');
+                });
+        });
+
+        // Function to toggle the visibility of the code block
+        function toggleCodeBlock() {
+            const codeBlock = document.getElementById("codeBlock");
+            const toggleButton = document.querySelector(".toggle-button");
+
+            if (codeBlock.style.display === "none") {
+                codeBlock.style.display = "block";
+                toggleButton.textContent = "Hide Guide";
+            } else {
+                codeBlock.style.display = "none";
+                toggleButton.textContent = "Show Guide";
+            }
+        }
+
+        // Function to toggle the visibility of the image
+        function toggleImage() {
+            const imageContainer = document.getElementById("imageContainer");
+            const toggleButton = document.querySelector(".toggle-button2");
+
+            if (imageContainer.style.display === "none") {
+                imageContainer.style.display = "block";
+                toggleButton.textContent = "Hide Image";
+            } else {
+                imageContainer.style.display = "none";
+                toggleButton.textContent = "Show Image";
+            }
+        }
+    </script>
+</body>
+</html>
