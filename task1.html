@@ -117,8 +117,7 @@
         }
 
         .image-container {
-            display: none; /* Initially hidden */
-            margin-top: 10px;
+            margin-top: 10px; /* Remove display: none to show the image by default */
         }
 
         .image-container img {
@@ -135,121 +134,19 @@
         <div class="instructions">
             <h3>Guide:</h3>
             <ol>
-                <li>Open your IDE tools: Visual Studio Code</li>
-                <li>Setup custom Angular and Material Design <a class="toggle-button2" onclick="toggleCodeBlock()">Show Guide</a> </li>
-                <div id="codeBlock" class="code-block">
-                    <code>
-                  npm install -g @angular/cli
-                  ng add @angular/material
-                  Select Custom
-                  To test: ng serve
-                    </code>
-                      <li>Here is the <a href="https://material.angular.io/components/" target="_blank">material documentation</a></li>
-                    </ul>
-                  </div>
-            <li>If you don’t have a Figma account
-                <a class="toggle-button2" onclick="toggleImage()">Show Design</a>
+                <li>Here Figma <a href="https://www.figma.com/design/IaXaSQwGIUeG1NiKD3eCqI/Case-Study?node-id=25-1299&t=t4Nr5LIV1aLsA5C5-1" target="_blank">design file</a></li>
+                <li>If you have problem opening Figma file, you can see the design below</li>
+                <li> Assets material design icon <a href="https://fonts.google.com/icons?icon.size=24&ic" target="_blank">Angular Material Icons</a> documentation</a></li>
                 <div id="imageContainer" class="image-container">
-                    Assets material design icon <a href="https://material.angular.io/components/icon/overview" target="_blank">Angular Material Icons</a> documentation</a>
                     <img src="Card Custom A.png" alt="Design Image">
                 </div>
             </li>
-        </ol>
-        </div>
-        <div class="code-section">
-            <h3>YOUR TASK SUBMISSION - Paste here</h3>
-            <label for="component-ts">Your.component.html</label>
-            <textarea id="component-ts" rows="3"></textarea>
-            
-            <label for="component-css">Your.component.scss or css</label>
-            <textarea id="component-css" rows="3"></textarea>
-
-            <label for="component-spec">Your.component.spec.ts</label>
-            <textarea id="component-spec" rows="3"></textarea>
-
-            <label for="component-ts-2">Your.component.ts</label>
-            <textarea id="component-ts-2" rows="3"></textarea>
-
-            <button id="submit-btn">Send your Task 1 Code</button>
+            </ol>
         </div>
     </div>
 
     <!-- Update EmailJS SDK Script -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script type="text/javascript" src="https://api.useberry.com/integrations/liveUrl/scripts/useberryScript.js"></script>
-    <script type="text/javascript">
-        // Initialize EmailJS
-        (function(){
-            emailjs.init("C-dRLpZWppNwW_DMH"); // Initialize EmailJS with your API key
-        })();
-
-        // Initialize submission counter
-        let submissionCount = 0;
-
-        document.getElementById('submit-btn').addEventListener('click', function() {
-            // Increment submission counter
-            submissionCount++;
-
-            // Get the current timestamp
-            const now = new Date();
-            const timestamp = now.toLocaleString(); // Format: MM/DD/YYYY, HH:MM:SS AM/PM
-
-            // Gather the values from the text areas
-            const componentTs = document.getElementById('component-ts').value;
-            const componentCss = document.getElementById('component-css').value;
-            const componentSpec = document.getElementById('component-spec').value;
-            const componentTs2 = document.getElementById('component-ts-2').value;
-
-            // Create an object to hold the data, including the updated from_name
-            const templateParams = {
-                from_name: `diahayuiraw@gmail.com - Submission #${submissionCount} at ${timestamp}`, // Updated sender name with submission count and timestamp
-                to_name: "diahayuiraw@gmail.com", // Recipient email address
-                subject: "Code submission",
-                component_ts: componentTs,
-                component_css: componentCss,
-                component_spec: componentSpec,
-                component_ts2: componentTs2
-            };
-
-            // Send the email using EmailJS
-            emailjs.send('service_1afpxob', 'template_fiqxaxp', templateParams)
-                .then(function(response) {
-                   console.log('SUCCESS!', response.status, response.text);
-                   // Redirect to success.html
-                   window.location.href = "success.html";
-                }, function(error) {
-                   console.log('FAILED...', error);
-                   alert('Failed to send email.');
-                });
-        });
-
-        // Function to toggle the visibility of the code block
-        function toggleCodeBlock() {
-            const codeBlock = document.getElementById("codeBlock");
-            const toggleButton = document.querySelector(".toggle-button");
-
-            if (codeBlock.style.display === "none") {
-                codeBlock.style.display = "block";
-                toggleButton.textContent = "Hide Guide";
-            } else {
-                codeBlock.style.display = "none";
-                toggleButton.textContent = "Show Guide";
-            }
-        }
-
-        // Function to toggle the visibility of the image
-        function toggleImage() {
-            const imageContainer = document.getElementById("imageContainer");
-            const toggleButton = document.querySelector(".toggle-button2");
-
-            if (imageContainer.style.display === "none") {
-                imageContainer.style.display = "block";
-                toggleButton.textContent = "Hide Image";
-            } else {
-                imageContainer.style.display = "none";
-                toggleButton.textContent = "Show Image";
-            }
-        }
-    </script>
 </body>
 </html>
