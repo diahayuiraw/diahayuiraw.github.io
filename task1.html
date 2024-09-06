@@ -126,7 +126,46 @@
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            display: none; /* Initially hidden */
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+
+        a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
     </style>
+    <script>
+        function toggleTable(id) {
+            const table = document.getElementById(id);
+            if (table.style.display === "none" || table.style.display === "") {
+                table.style.display = "table";
+            } else {
+                table.style.display = "none";
+            }
+        }
+    </script>
 </head>
 <body>
     <div class="task-container">
@@ -134,19 +173,79 @@
         <div class="instructions">
             <h3>Guide:</h3>
             <ol>
-                <li>Here Figma <a href="https://www.figma.com/design/IaXaSQwGIUeG1NiKD3eCqI/Case-Study?node-id=25-1299&t=t4Nr5LIV1aLsA5C5-1" target="_blank">design file</a></li>
-                <li>If you have problem opening Figma file, you can see the design below</li>
-                <li> Assets material design icon <a href="https://fonts.google.com/icons?icon.size=24&ic" target="_blank">Angular Material Icons</a> documentation</a></li>
-                <div id="imageContainer" class="image-container">
-                    <img src="Card Custom A.png" alt="Design Image">
-                </div>
-            </li>
-            </ol>
-        </div>
-    </div>
+                <li>Documentation for the project setup. However, if you have a a restricted environment, you can directly code and implement the design.</li>
+       
 
-    <!-- Update EmailJS SDK Script -->
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    <script type="text/javascript" src="https://api.useberry.com/integrations/liveUrl/scripts/useberryScript.js"></script>
-</body>
-</html>
+            <button class="toggle-button" onclick="toggleTable('angularTable')">Angular Material</button>
+            <table id="angularTable">
+                <tr>
+                    <th>Step</th>
+                    <th>Description</th>
+                    <th>Link</th>
+                </tr>
+                <tr>
+                    <td><strong>Step 1: Define Tokens</strong></td>
+                    <td>Define your tokens in a <code>.scss</code> file. You can store color, typography, and spacing as tokens.</td>
+                    <td><a href="https://material.angular.io/guide/theming" target="_blank">Angular Material Theming Guide</a></td>
+                </tr>
+                <tr>
+                    <td><strong>Step 2: Use Tokens</strong></td>
+                    <td>Reference these tokens in your component SCSS files (e.g., <code>background-color: $color-primary;</code>).</td>
+                    <td><a href="https://material.angular.io/guide/customizing-component-styles" target="_blank">Using Tokens in Angular</a></td>
+                </tr>
+                <tr>
+                    <td><strong>Step 3: Theming with Tokens</strong></td>
+                    <td>Use the Angular Material theming API to apply tokens as part of your global theme.</td>
+                    <td><a href="https://material.angular.io/guide/theming-your-components" target="_blank">Theming in Angular</a></td>
+                </tr>
+                <tr>
+                    <td><strong>Step 4: Apply in Components</strong></td>
+                    <td>Wrap your app with <code>ThemeProvider</code> to apply the token-based theme across all components.</td>
+                    <td><a href="https://material.angular.io/guide/theming" target="_blank">Angular Material Theming</a></td>
+                </tr>
+            </table>
+
+            <button class="toggle-button" onclick="toggleTable('reactTable')">React- Material-UI</button>
+            <table id="reactTable">
+                <tr>
+                    <th>Step</th>
+                    <th>Description</th>
+                    <th>Link</th>
+                </tr>
+                <tr>
+                    <td><strong>Step 1: Define Tokens</strong></td>
+                    <td>Create a <code>theme.js</code> file and define your tokens using the <code>createTheme</code> function from Material-UI.</td>
+                    <td><a href="https://mui.com/material-ui/customization/theming/" target="_blank">Material-UI Theming</a></td>
+                </tr>
+                <tr>
+                    <td><strong>Step 2: Apply Tokens Globally</strong></td>
+                    <td>Use <code>ThemeProvider</code> to wrap your app and apply the tokens globally across components.</td>
+                    <td><a href="https://mui.com/material-ui/customization/theming/#theme-provider" target="_blank">Applying Theme in React</a></td>
+                </tr>
+                <tr>
+                    <td><strong>Step 3: Customize Components</strong></td>
+                    <td>Customize components with the <code>sx</code> prop, applying your token values to individual components.</td>
+                    <td><a href="https://mui.com/system/the-sx-prop/" target="_blank">Using sx in Material-UI</a></td>
+                </tr>
+                <tr>
+                    <td><strong>Step 4: Manage Custom Themes</strong></td>
+                    <td>Manage dark mode or other custom themes using tokens for consistent design across platforms.</td>
+                    <td><a href="https://mui.com/material-ui/customization/dark-mode/" target="_blank">Custom Themes</a></td>
+                </tr>
+            </table>
+       
+                    <li>Here the design, <a href="https://www.figma.com/design/IaXaSQwGIUeG1NiKD3eCqI/Case-Study?node-id=25-1299&t=t4Nr5LIV1aLsA5C5-1" target="_blank"> Figma design file</a>. If you have problem opening Figma file, you can see the design below</li>
+                    <li> Assets material design icon <a href="https://fonts.google.com/icons?icon.size=24&ic" target="_blank">Angular Material Icons</a> documentation</a></li>
+                    <div id="imageContainer" class="image-container">
+                        <img src="Card Custom A.png" alt="Design Image">
+                    </div>
+                </li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Update EmailJS SDK Script -->
+        <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+        <script type="text/javascript" src="https://api.useberry.com/integrations/liveUrl/scripts/useberryScript.js"></script>
+    </body>
+    </html>
