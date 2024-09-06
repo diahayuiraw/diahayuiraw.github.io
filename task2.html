@@ -95,7 +95,7 @@
             display: block;
             white-space: pre-wrap;
             line-height: 1.6;
-            color: #7e25c7;
+            color: #2b10c1;
             background-color: #f9f2f4;
         }
 
@@ -115,117 +115,133 @@
         .toggle-button:hover {
             background-color: #f0f0f0;
         }
-        .important-note p {
-            margin: 0;
-            font-size: 16px;
+
+        .image-container {
+            margin-top: 10px; /* Remove display: none to show the image by default */
+        }
+
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            display: none; /* Initially hidden */
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+
+        a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
         }
     </style>
-</head>
-<body>
-    <div class="task-container">
-        <h2>TASK 2</h2>
-        <div class="instructions">
-            <h3>Instruction:</h3>
-            <ol>
-                <li>Open your IDE tools: Visual Studio Code</li>
-                <li>Install Angular and custom material design system: <a class="toggle-button" onclick="toggleCodeBlock()">Show Guide</a></li>
-            <div id="codeBlock" class="code-block">
-                <code>
-npm install -g @angular/cli
-npm audit fix
-ng add @angular/material
-Select Custom
-<li>Make a card component as the design above using the material design.
-    Here is the
-    <a href="https://material.angular.io/components/card/overview">material documentation</a>
-</li>
-                </code>
-            </div>
-            <li>Navigate to the Design to Code tool, you are free to test out your prompt to produce the code from the design.
-                <a href="https://d2d-team13-m-egm.vercel.app/">Click here</a> 
-            </li>
-        </ol>
-        </div>
-        <div class="code-section">
-            <h3>YOUR TASK SUBMISSION - Paste here</h3>
-            <label for="component-ts">Your.component.ts</label>
-            <textarea id="component-ts" rows="3"></textarea>
-            
-            <label for="component-css">Your.component.scss or css</label>
-            <textarea id="component-css" rows="3"></textarea>
-
-            <label for="component-spec">Your.component.spec.ts</label>
-            <textarea id="component-spec" rows="3"></textarea>
-
-            <label for="component-ts-2">Your.component.ts</label>
-            <textarea id="component-ts-2" rows="3"></textarea>
-
-            <button id="submit-btn">DONE</button>
-        </div>
-    </div>
-
-    <!-- Update EmailJS SDK Script -->
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    <script type="text/javascript" src="https://api.useberry.com/integrations/liveUrl/scripts/useberryScript.js"></script>
-    <script type="text/javascript">
-        // Initialize EmailJS
-        (function(){
-            emailjs.init("C-dRLpZWppNwW_DMH"); 
-        })();
-
-        // Initialize submission counter
-        let submissionCount = 0;
-
-        document.getElementById('submit-btn').addEventListener('click', function() {
-            // Increment submission counter
-            submissionCount++;
-
-            // Get the current timestamp
-            const now = new Date();
-            const timestamp = now.toLocaleString(); // Format: MM/DD/YYYY, HH:MM:SS AM/PM
-
-            // Gather the values from the text areas
-            const componentTs = document.getElementById('component-ts').value;
-            const componentCss = document.getElementById('component-css').value;
-            const componentSpec = document.getElementById('component-spec').value;
-            const componentTs2 = document.getElementById('component-ts-2').value;
-
-            // Create an object to hold the data, including the updated from_name
-            const templateParams = {
-                from_name: `diahayuiraw@gmail.com - Submission #${submissionCount} at ${timestamp}`, // Updated sender name with submission count and timestamp
-                to_name: "diahayuiraw@gmail.com", // Recipient email address
-                subject: "Code submission",
-                component_ts: componentTs,
-                component_css: componentCss,
-                component_spec: componentSpec,
-                component_ts2: componentTs2
-            };
-
-            // Send the email using EmailJS
-            emailjs.send('service_1afpxob', 'template_fiqxaxp', templateParams)
-                .then(function(response) {
-                   console.log('SUCCESS!', response.status, response.text);
-                   // Redirect to success.html
-                   window.location.href = "success.html";
-                }, function(error) {
-                   console.log('FAILED...', error);
-                   alert('Failed to send email.');
-                });
-        });
-
-        // Function to toggle the visibility of the code block
-        function toggleCodeBlock() {
-            const codeBlock = document.getElementById("codeBlock");
-            const toggleButton = document.querySelector(".toggle-button");
-
-            if (codeBlock.style.display === "none") {
-                codeBlock.style.display = "block";
-                toggleButton.textContent = "Hide Guide";
+    <script>
+        function toggleTable(id) {
+            const table = document.getElementById(id);
+            if (table.style.display === "none" || table.style.display === "") {
+                table.style.display = "table";
             } else {
-                codeBlock.style.display = "none";
-                toggleButton.textContent = "Show Guide";
+                table.style.display = "none";
             }
         }
     </script>
-</body>
-</html>
+</head>
+<body>
+    <div class="task-container">
+        <h2>TASK 1</h2>
+        <div class="instructions">
+            <h3>Guide:</h3>
+            <ol>
+                <li>Documentation for the project setup. However, if you have a restricted environment, you can directly code and implement the design.</li>
+       
+
+            <button class="toggle-button" onclick="toggleTable('angularTable')">Angular Material</button>
+            <table id="angularTable">
+                <tr>
+                    <th>Step</th>
+                    <th>Description</th>
+                    <th>Link</th>
+                </tr>
+                <tr>
+                    <td><strong>Step 1: Define Tokens</strong></td>
+                    <td>Define your tokens in a <code>.scss</code> file. You can store color, typography, and spacing as tokens.</td>
+                    <td><a href="https://material.angular.io/guide/theming" target="_blank">Angular Material Theming Guide</a></td>
+                </tr>
+                <tr>
+                    <td><strong>Step 2: Use Tokens</strong></td>
+                    <td>Reference these tokens in your component SCSS files (e.g., <code>background-color: $color-primary;</code>).</td>
+                    <td><a href="https://material.angular.io/guide/customizing-component-styles" target="_blank">Using Tokens in Angular</a></td>
+                </tr>
+                <tr>
+                    <td><strong>Step 3: Theming with Tokens</strong></td>
+                    <td>Use the Angular Material theming API to apply tokens as part of your global theme.</td>
+                    <td><a href="https://material.angular.io/guide/theming-your-components" target="_blank">Theming in Angular</a></td>
+                </tr>
+                <tr>
+                    <td><strong>Step 4: Apply in Components</strong></td>
+                    <td>Wrap your app with <code>ThemeProvider</code> to apply the token-based theme across all components.</td>
+                    <td><a href="https://material.angular.io/guide/theming" target="_blank">Angular Material Theming</a></td>
+                </tr>
+            </table>
+
+            <button class="toggle-button" onclick="toggleTable('reactTable')">React- Material-UI</button>
+            <table id="reactTable">
+                <tr>
+                    <th>Step</th>
+                    <th>Description</th>
+                    <th>Link</th>
+                </tr>
+                <tr>
+                    <td><strong>Step 1: Define Tokens</strong></td>
+                    <td>Create a <code>theme.js</code> file and define your tokens using the <code>createTheme</code> function from Material-UI.</td>
+                    <td><a href="https://mui.com/material-ui/customization/theming/" target="_blank">Material-UI Theming</a></td>
+                </tr>
+                <tr>
+                    <td><strong>Step 2: Apply Tokens Globally</strong></td>
+                    <td>Use <code>ThemeProvider</code> to wrap your app and apply the tokens globally across components.</td>
+                    <td><a href="https://mui.com/material-ui/customization/theming/#theme-provider" target="_blank">Applying Theme in React</a></td>
+                </tr>
+                <tr>
+                    <td><strong>Step 3: Customize Components</strong></td>
+                    <td>Customize components with the <code>sx</code> prop, applying your token values to individual components.</td>
+                    <td><a href="https://mui.com/system/the-sx-prop/" target="_blank">Using sx in Material-UI</a></td>
+                </tr>
+                <tr>
+                    <td><strong>Step 4: Manage Custom Themes</strong></td>
+                    <td>Manage dark mode or other custom themes using tokens for consistent design across platforms.</td>
+                    <td><a href="https://mui.com/material-ui/customization/dark-mode/" target="_blank">Custom Themes</a></td>
+                </tr>
+            </table>
+        
+                    </div>
+                </li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Update EmailJS SDK Script -->
+        <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+        <script type="text/javascript" src="https://api.useberry.com/integrations/liveUrl/scripts/useberryScript.js"></script>
+    </body>
+    </html>
