@@ -96,24 +96,19 @@
   </style>
 </head>
 <body>
-  <div class="background">
-    <div class="glass-popup">
-      <h2>This is your opened window</h2>
-      <p>You can try to interact here. Click this button and you will see a thank you letter.</p>
-      <button class="popup-button" onclick="showThankYou()">Click Me</button>
+    <div class="background">
+      <div class="glass-popup">
+        <h2>This is your opened window</h2>
+        <p>You can try to interact here. Click this button and you will see a thank you letter.</p>
+        <button class="popup-button" onclick="showThankYou()">Click Me</button>
+      </div>
     </div>
-
-    <div id="thankyou-popup" class="thankyou-popup hidden">
-      <h2>Thank You!</h2>
-      <p>Your interaction was successful.</p>
-    </div>
-  </div>
-
-  <script>
-    function showThankYou() {
-      document.querySelector('.glass-popup').classList.add('hidden');
-      document.getElementById('thankyou-popup').classList.remove('hidden');
-    }
-  </script>
-</body>
+  
+    <script>
+      function showThankYou() {
+        // Redirect to the success page
+        window.location.href = "success.html";
+      }
+    </script>
+  </body>
 </html>
