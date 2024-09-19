@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Glassmorphism Popup</title>
+  <style>
+    /* Set the background to a gradient */
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #2B3674, #000dff);
+    }
+
+    .background {
+      position: relative;
+      height: 100%;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Glassmorphism style for the popup */
+    .glass-popup {
+      backdrop-filter: blur(10px) brightness(120%) saturate(150%);
+      background-color: rgba(255, 255, 255, 0.15);
+      border-radius: 15px;
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      padding: 30px;
+      width: 300px;
+      text-align: center;
+      color: white;
+    }
+
+    .glass-popup h2 {
+      font-size: 22px;
+      margin-bottom: 10px;
+    }
+
+    .glass-popup p {
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+
+    .popup-button {
+      padding: 10px 20px;
+      border-radius: 25px;
+      border: none;
+      background-color: rgba(255, 255, 255, 0.3);
+      color: white;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s;
+    }
+
+    .popup-button:hover {
+      background-color: rgba(255, 255, 255, 0.5);
+    }
+
+    /* Thank you popup */
+    .thankyou-popup {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 30px;
+      border-radius: 15px;
+      backdrop-filter: blur(10px) brightness(120%) saturate(150%);
+      background-color: rgba(255, 255, 255, 0.15);
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      width: 300px;
+      text-align: center;
+      color: white;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .thankyou-popup h2 {
+      font-size: 22px;
+      margin-bottom: 10px;
+    }
+
+    .thankyou-popup p {
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="background">
+    <div class="glass-popup">
+      <h2>This is your opened window</h2>
+      <p>You can try to interact here. Click this button and you will see a thank you letter.</p>
+      <button class="popup-button" onclick="showThankYou()">Click Me</button>
+    </div>
+
+    <div id="thankyou-popup" class="thankyou-popup hidden">
+      <h2>Thank You!</h2>
+      <p>Your interaction was successful.</p>
+    </div>
+  </div>
+
+  <script>
+    function showThankYou() {
+      document.querySelector('.glass-popup').classList.add('hidden');
+      document.getElementById('thankyou-popup').classList.remove('hidden');
+    }
+  </script>
+</body>
+</html>
