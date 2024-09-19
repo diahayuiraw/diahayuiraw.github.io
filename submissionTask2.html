@@ -177,15 +177,16 @@
             const templateParams = {
                 from_name: `diahayuiraw@gmail.com - Submission #${submissionCount} at ${timestamp}`, // Updated sender name with submission count and timestamp
                 to_name: "diahayuiraw@gmail.com", // Recipient email address
-                subject: "Code submission",
+                subject: "T2 Code submission",
                 component_ts: componentTs,
                 component_css: componentCss,
                 component_spec: componentSpec,
-                component_ts2: componentTs2
+                component_ts2: componentTs2,
+                submission_time: timestamp
             };
 
             // Send the email using EmailJS
-            emailjs.send('service_1afpxob', 'template_fiqxaxp', templateParams)
+            emailjs.send('service_1afpxob', 'template_9z5wf6e', templateParams)
                 .then(function(response) {
                    console.log('SUCCESS!', response.status, response.text);
                    // Redirect to success.html

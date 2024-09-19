@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Task 4 Web Page</title>
+    <title>Task 2 Web Page</title>
     <style>
         body {
             font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
@@ -131,22 +131,19 @@
 </head>
 <body>
     <div class="task-container">
-        <h2>Task 4 Submission </h2>
+        <h2>Task 2 Submission </h2>
         <div class="code-section">
             <h3>Please paste the code from your local IDE here</h3>
-            <label for="component-ts">Your.component.html</label>
+            <label for="component-ts">Your.component.html .jsx</label>
             <textarea id="component-ts" rows="3"></textarea>
             
             <label for="component-css">Your.component.scss or css</label>
             <textarea id="component-css" rows="3"></textarea>
 
-            <label for="component-spec">Your.component.spec.ts</label>
-            <textarea id="component-spec" rows="3"></textarea>
-
             <label for="component-ts-2">Your.component.ts</label>
             <textarea id="component-ts-2" rows="3"></textarea>
 
-            <button id="submit-btn">Send your Code of Task 4</button>
+            <button id="submit-btn">Send your Code of Task 2</button>
         </div>
     </div>
 
@@ -180,15 +177,16 @@
             const templateParams = {
                 from_name: `diahayuiraw@gmail.com - Submission #${submissionCount} at ${timestamp}`, // Updated sender name with submission count and timestamp
                 to_name: "diahayuiraw@gmail.com", // Recipient email address
-                subject: "Code submission",
+                subject: "T4 Code submission",
                 component_ts: componentTs,
                 component_css: componentCss,
                 component_spec: componentSpec,
-                component_ts2: componentTs2
+                component_ts2: componentTs2,
+                submission_time: timestamp
             };
 
             // Send the email using EmailJS
-            emailjs.send('service_1afpxob', 'template_fiqxaxp', templateParams)
+            emailjs.send('service_1afpxob', 'template_9z5wf6e', templateParams)
                 .then(function(response) {
                    console.log('SUCCESS!', response.status, response.text);
                    // Redirect to success.html
