@@ -113,7 +113,7 @@
             .then(function(response) {
                 console.log('SUCCESS!', response.status, response.text);
                 // Redirect to the success page after successful submission
-                window.location.href = "submissionTask1/success";
+                window.location.href = "/success";
             }, function(error) {
                 console.log('FAILED...', error);
                 alert('Failed to send email.');
