@@ -151,79 +151,40 @@
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script type="text/javascript" src="https://api.useberry.com/integrations/liveUrl/scripts/useberryScript.js"></script>
     <script type="text/javascript">
-        // Initialize EmailJS
-        (function(){
+        (function() {
             emailjs.init("C-dRLpZWppNwW_DMH"); // Initialize EmailJS with your API key
         })();
 
-        // Initialize submission counter
-        let submissionCount = 0;
-
+        // Handle form submission
         document.getElementById('submit-btn').addEventListener('click', function() {
-            // Increment submission counter
-            submissionCount++;
-
-            // Get the current timestamp
-            const now = new Date();
-            const timestamp = now.toLocaleString(); // Format: MM/DD/YYYY, HH:MM:SS AM/PM
-
-            // Gather the values from the text areas
             const componentTs = document.getElementById('component-ts').value;
             const componentCss = document.getElementById('component-css').value;
-            const componentSpec = document.getElementById('component-spec').value;
             const componentTs2 = document.getElementById('component-ts-2').value;
 
-            // Create an object to hold the data, including the updated from_name
+            // Prepare email parameters
+            const timestamp = new Date().toISOString()
             const templateParams = {
-                from_name: `diahayuiraw@gmail.com - Submission #${submissionCount} at ${timestamp}`, // Updated sender name with submission count and timestamp
-                to_name: "diahayuiraw@gmail.com", // Recipient email address
+                from_name: "diahayuiraw@gmail.com", // Your email
+                to_name: "diahayuiraw@gmail.com",  // Recipient email
                 subject: "T4 Code submission",
                 component_ts: componentTs,
                 component_css: componentCss,
-                component_spec: componentSpec,
                 component_ts2: componentTs2,
                 submission_time: timestamp
             };
 
-            // Send the email using EmailJS
-            emailjs.send('service_1afpxob', 'template_9z5wf6e', templateParams)
-                .then(function(response) {
-                   console.log('SUCCESS!', response.status, response.text);
-                   // Redirect to success.html
-                   window.location.href = "success.html";
-                }, function(error) {
-                   console.log('FAILED...', error);
-                   alert('Failed to send email.');
-                });
+            // Send email using EmailJS
+           // Send email using EmailJS
+            emailjs.send('service_1afpxob', 'template_fiqxaxp', templateParams)
+            .then(function(response) {
+                console.log('SUCCESS!', response.status, response.text);
+                // Redirect to the success page after successful submission
+                window.location.href = "/success";
+            }, function(error) {
+                console.log('FAILED...', error);
+                alert('Failed to send email.');
+            });
         });
-
-        // Function to toggle the visibility of the code block
-        function toggleCodeBlock() {
-            const codeBlock = document.getElementById("codeBlock");
-            const toggleButton = document.querySelector(".toggle-button");
-
-            if (codeBlock.style.display === "none") {
-                codeBlock.style.display = "block";
-                toggleButton.textContent = "Hide Guide";
-            } else {
-                codeBlock.style.display = "none";
-                toggleButton.textContent = "Show Guide";
-            }
-        }
-
-        // Function to toggle the visibility of the image
-        function toggleImage() {
-            const imageContainer = document.getElementById("imageContainer");
-            const toggleButton = document.querySelector(".toggle-button2");
-
-            if (imageContainer.style.display === "none") {
-                imageContainer.style.display = "block";
-                toggleButton.textContent = "Hide Image";
-            } else {
-                imageContainer.style.display = "none";
-                toggleButton.textContent = "Show Image";
-            }
-        }
     </script>
 </body>
 </html>

@@ -96,10 +96,11 @@
             const componentTs2 = document.getElementById('component-ts-2').value;
 
             // Prepare email parameters
+            const timestamp = new Date().toISOString()
             const templateParams = {
                 from_name: "diahayuiraw@gmail.com", // Your email
                 to_name: "diahayuiraw@gmail.com",  // Recipient email
-                subject: "T2 Code submission",
+                subject: "T3 Code submission",
                 component_ts: componentTs,
                 component_css: componentCss,
                 component_ts2: componentTs2,
@@ -112,7 +113,7 @@
             .then(function(response) {
                 console.log('SUCCESS!', response.status, response.text);
                 // Redirect to the success page after successful submission
-                window.location.href = "submissionTask1/success";
+                window.location.href = "/success";
             }, function(error) {
                 console.log('FAILED...', error);
                 alert('Failed to send email.');
