@@ -33,24 +33,6 @@
             margin-bottom: 10px;
         }
 
-        .instructions ol, 
-        .instructions ul {
-            padding-left: 20px;
-        }
-
-        .instructions a {
-            color: #1E90FF;
-            text-decoration: none;
-        }
-
-        .instructions a:hover {
-            text-decoration: underline;
-        }
-
-        .code-section {
-            margin-top: 20px;
-        }
-
         label {
             display: block;
             margin-bottom: 5px;
@@ -79,62 +61,19 @@
         button:hover {
             background-color: #1C86EE;
         }
-
-        .code-block {
-            background-color: #f7f7f7;
-            border: 1px solid #ddd;
-            padding: 15px;
-            border-radius: 5px;
-            font-family: 'Courier New', Courier, monospace;
-            overflow-x: auto;
-            margin-bottom: 20px;
-            display: none; /* Initially hidden */
-        }
-
-        .code-block code {
-            display: block;
-            white-space: pre-wrap;
-            line-height: 1.6;
-            color: #2b10c1;
-            background-color: #f9f2f4;
-        }
-
-        .toggle-button {
-            margin-bottom: 10px;
-            cursor: pointer;
-            color: #1E90FF;
-            text-decoration: none;
-            font-size: 16px;
-            display: inline-block;
-            background-color: #fff;
-            border: 1px solid #1E90FF;
-            padding: 5px 10px;
-            border-radius: 5px;
-        }
-
-        .toggle-button:hover {
-            background-color: #f0f0f0;
-        }
-
-        .image-container {
-            display: none; /* Initially hidden */
-            margin-top: 10px;
-        }
-
-        .image-container img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
     </style>
 </head>
 <body>
     <div class="task-container">
-        <h2>Task 2 Submission </h2>
+        <h2>Task 2 Submission</h2>
         <div class="code-section">
             <h3>Please paste the code from your local IDE here</h3>
-            <label for="component-ts">Your.component.html or .jsx</label>
+
+            <!-- Subject Field (Optional: You can remove this if you want a predefined subject) -->
+            <label for="subject">Subject</label>
+            <input type="text" id="subject" placeholder="Enter subject (optional)" value="T4 Code Submission">
+
+            <label for="component-ts">Your.component.html .jsx</label>
             <textarea id="component-ts" rows="3"></textarea>
             
             <label for="component-css">Your.component.scss or css</label>
@@ -149,7 +88,6 @@
 
     <!-- Update EmailJS SDK Script -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    <script type="text/javascript" src="https://api.useberry.com/integrations/liveUrl/scripts/useberryScript.js"></script>
     <script type="text/javascript">
         (function() {
             emailjs.init("C-dRLpZWppNwW_DMH"); // Initialize EmailJS with your API key
@@ -161,12 +99,15 @@
             const componentCss = document.getElementById('component-css').value;
             const componentTs2 = document.getElementById('component-ts-2').value;
 
+            // Get the subject either from the input or set a default value
+            const subject = document.getElementById('subject').value || "T2 code";
+
             // Prepare email parameters
-            const timestamp = new Date().toISOString()
+            const timestamp = new Date().toISOString();
             const templateParams = {
                 from_name: "diahayuiraw@gmail.com", // Your email
                 to_name: "diahayuiraw@gmail.com",  // Recipient email
-                subject: "T2 Code submission",
+                subject: subject, // Use the dynamic subject
                 component_ts: componentTs,
                 component_css: componentCss,
                 component_ts2: componentTs2,
@@ -174,7 +115,6 @@
             };
 
             // Send email using EmailJS
-           // Send email using EmailJS
             emailjs.send('service_1afpxob', 'template_fiqxaxp', templateParams)
             .then(function(response) {
                 console.log('SUCCESS!', response.status, response.text);
