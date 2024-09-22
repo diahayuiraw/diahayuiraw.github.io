@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Task 4 Web Page</title>
+    <title>Task 1 Web Page</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
             background-color: #f4f4f4;
             color: #333;
             margin: 0;
@@ -79,77 +79,175 @@
         button:hover {
             background-color: #1C86EE;
         }
+
+        .code-block {
+            background-color: #f7f7f7;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', Courier, monospace;
+            overflow-x: auto;
+            margin-bottom: 20px;
+            display: none; /* Initially hidden */
+        }
+
+        .code-block code {
+            display: block;
+            white-space: pre-wrap;
+            line-height: 1.6;
+            color: #2b10c1;
+            background-color: #f9f2f4;
+        }
+
+        .toggle-button {
+            margin-bottom: 10px;
+            cursor: pointer;
+            color: #1E90FF;
+            text-decoration: none;
+            font-size: 16px;
+            display: inline-block;
+            background-color: #fff;
+            border: 1px solid #1E90FF;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .toggle-button:hover {
+            background-color: #f0f0f0;
+        }
+
+        .image-container {
+            margin-top: 10px; /* Remove display: none to show the image by default */
+        }
+
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            display: none; /* Initially hidden */
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+
+        a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
     </style>
+    <script>
+        function toggleTable(id) {
+            const table = document.getElementById(id);
+            if (table.style.display === "none" || table.style.display === "") {
+                table.style.display = "table";
+            } else {
+                table.style.display = "none";
+            }
+        }
+    </script>
 </head>
 <body>
     <div class="task-container">
-        <h2>TASK 4</h2>
+        <h2>TASK 1</h2>
         <div class="instructions">
-            <h3>Instruction:</h3>
+            <h3>Guide:</h3> 
+          <p></p> <a href="https://github.com/diahayuiraw/GenCode-Angular" target="_blank">You can Clone Angular base project here</a></p>
+           <p></p> <a href="https://github.com/diahayuiraw/GenCode-React/tree/main" target="_blank">OR Clone React base project here</a></p>
             <ol>
-                <li>Open your IDE tools: Visual Studio Code</li>
-               task 4
-                <li>Make a card component as the design above using the material design. 
-                    Here is the 
-                    <a href="#">material documentation</a>
+                <li>Documentation for the project setup. However, if you have a restricted environment, you can directly code and implement the design.</li>
+       
+
+            <button class="toggle-button" onclick="toggleTable('angularTable')">Angular Material</button>
+            <table id="angularTable">
+                <tr>
+                    <th>Step</th>
+                    <th>Description</th>
+                    <th>Link</th>
+                </tr>
+                <tr>
+                    <td><strong>Step 1: Define Tokens</strong></td>
+                    <td>Define your tokens in a <code>.scss</code> file. You can store color, typography, and spacing as tokens.</td>
+                    <td><a href="https://material.angular.io/guide/theming" target="_blank">Angular Material Theming Guide</a></td>
+                </tr>
+                <tr>
+                    <td><strong>Step 2: Use Tokens</strong></td>
+                    <td>Reference these tokens in your component SCSS files (e.g., <code>background-color: $color-primary;</code>).</td>
+                    <td><a href="https://material.angular.io/guide/customizing-component-styles" target="_blank">Using Tokens in Angular</a></td>
+                </tr>
+                <tr>
+                    <td><strong>Step 3: Theming with Tokens</strong></td>
+                    <td>Use the Angular Material theming API to apply tokens as part of your global theme.</td>
+                    <td><a href="https://material.angular.io/guide/theming-your-components" target="_blank">Theming in Angular</a></td>
+                </tr>
+                <tr>
+                    <td><strong>Step 4: Apply in Components</strong></td>
+                    <td>Wrap your app with <code>ThemeProvider</code> to apply the token-based theme across all components.</td>
+                    <td><a href="https://material.angular.io/guide/theming" target="_blank">Angular Material Theming</a></td>
+                </tr>
+            </table>
+
+            <button class="toggle-button" onclick="toggleTable('reactTable')">React- Material-UI</button>
+            <table id="reactTable">
+                <tr>
+                    <th>Step</th>
+                    <th>Description</th>
+                    <th>Link</th>
+                </tr>
+                <tr>
+                    <td><strong>Step 1: Define Tokens</strong></td>
+                    <td>Create a <code>theme.js</code> file and define your tokens using the <code>createTheme</code> function from Material-UI.</td>
+                    <td><a href="https://mui.com/material-ui/customization/theming/" target="_blank">Material-UI Theming</a></td>
+                </tr>
+                <tr>
+                    <td><strong>Step 2: Apply Tokens Globally</strong></td>
+                    <td>Use <code>ThemeProvider</code> to wrap your app and apply the tokens globally across components.</td>
+                    <td><a href="https://mui.com/material-ui/customization/theming/#theme-provider" target="_blank">Applying Theme in React</a></td>
+                </tr>
+                <tr>
+                    <td><strong>Step 3: Customize Components</strong></td>
+                    <td>Customize components with the <code>sx</code> prop, applying your token values to individual components.</td>
+                    <td><a href="https://mui.com/system/the-sx-prop/" target="_blank">Using sx in Material-UI</a></td>
+                </tr>
+                <tr>
+                    <td><strong>Step 4: Manage Custom Themes</strong></td>
+                    <td>Manage dark mode or other custom themes using tokens for consistent design across platforms.</td>
+                    <td><a href="https://mui.com/material-ui/customization/dark-mode/" target="_blank">Custom Themes</a></td>
+                </tr>
+            </table>
+       
+                    <li>Here the design, <a href="https://www.figma.com/design/IaXaSQwGIUeG1NiKD3eCqI/Case-Study?node-id=25-1299&t=t4Nr5LIV1aLsA5C5-1" target="_blank"> Figma design file</a>. If you have problem opening Figma file, you can see the design below</li>
+                    <li> Assets material design icon <a href="https://fonts.google.com/icons?icon.size=24&ic" target="_blank">Angular Material Icons</a> documentation</a></li>
+                    <div id="imageContainer" class="image-container">
+                        <img src="Card Custom B.png" alt="Design Image">
+                    </div>
                 </li>
-            </ol>
+                </ol>
+            </div>
         </div>
-        <div class="code-section">
-            <h3>YOUR CODE</h3>
-            <label for="component-ts">Your.component.ts</label>
-            <textarea id="component-ts" rows="3"></textarea>
-            
-            <label for="component-css">Your.component.scss or css</label>
-            <textarea id="component-css" rows="3"></textarea>
 
-            <label for="component-spec">Your.component.spec.ts</label>
-            <textarea id="component-spec" rows="3"></textarea>
-
-            <label for="component-ts-2">Your.component.ts</label>
-            <textarea id="component-ts-2" rows="3"></textarea>
-
-            <button id="submit-btn">BTN : DONE</button>
-        </div>
-    </div>
-
-    <script>
-        document.getElementById('submit-btn').addEventListener('click', function() {
-            // Gather the values from the text areas
-            const componentTs = document.getElementById('component-ts').value;
-            const componentCss = document.getElementById('component-css').value;
-            const componentSpec = document.getElementById('component-spec').value;
-            const componentTs2 = document.getElementById('component-ts-2').value;
-
-            // Create an object to hold the data
-            const formData = {
-                componentTs: componentTs,
-                componentCss: componentCss,
-                componentSpec: componentSpec,
-                componentTs2: componentTs2
-            };
-
-            // Convert the object to JSON
-            const jsonData = JSON.stringify(formData);
-
-            // Send the data using fetch
-            fetch('your-server-endpoint-url', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: jsonData
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
-                alert('Data submitted successfully!');
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-                alert('There was an error submitting the data.');
-            });
-        });
-    </script>
-</body>
-</html>
+        <!-- Update EmailJS SDK Script -->
+        <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+        <script type="text/javascript" src="https://api.useberry.com/integrations/liveUrl/scripts/useberryScript.js"></script>
+    </body>
+    </html>
