@@ -64,24 +64,28 @@
     </style>
 </head>
 <body>
-    <link
+    <div class="task-container">
+        <h2>User Experience curve</h2>
+        <link
   rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/@uploadcare/file-uploader@1/web/uc-file-uploader-minimal.min.css"
+  href="https://cdn.jsdelivr.net/npm/@uploadcare/file-uploader@1/web/uc-file-uploader-regular.min.css"
 >
 <script type="module">
-  import * as UC from 'https://cdn.jsdelivr.net/npm/@uploadcare/file-uploader@1/web/uc-file-uploader-minimal.min.js';
+  import * as UC from 'https://cdn.jsdelivr.net/npm/@uploadcare/file-uploader@1/web/uc-file-uploader-regular.min.js';
   UC.defineComponents(UC);
 </script>
 
 <uc-config
   ctx-name="my-uploader"
+  source-list="local, url, camera, dropbox"
   pubkey="96c0e1d578840d36bb45"
 ></uc-config>
 
-<uc-file-uploader-minimal
+<uc-file-uploader-regular
   ctx-name="my-uploader"
   class="uc-light"
-></uc-file-uploader-minimal>
+></uc-file-uploader-regular>
+    </div>  
 </body>
 <script type="text/javascript" src="https://api.useberry.com/integrations/liveUrl/scripts/useberryScript.js"></script>
 
