@@ -33,21 +33,6 @@
             margin-bottom: 10px;
         }
 
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-
-        textarea {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            font-family: monospace;
-        }
-
         button {
             background-color: #1E90FF;
             color: #fff;
@@ -67,63 +52,16 @@
     <div class="task-container">
         <h2>Task 4 Submission</h2>
         <div class="code-section">
-            <h3>Please paste the code from your local IDE here</h3>
+            <h3>Click below to upload your image for Task 4</h3>
 
-            <!-- Subject Field (Optional: You can remove this if you want a predefined subject) -->
-            <label for="subject">Subject</label>
-            <input type="text" id="subject" placeholder="Enter subject (optional)" value="T4 Code Submission">
-
-            <label for="component-ts">Your.component.html or .jsx</label>
-            <textarea id="component-ts" rows="3"></textarea>
-            
-            <label for="component-css">Your.component.scss or css</label>
-            <textarea id="component-css" rows="3"></textarea>
-
-            <label for="component-ts-2">Your.component.ts - if Angular</label>
-            <textarea id="component-ts-2" rows="3"></textarea>
-
-            <button id="submit-btn">Send your Code of Task 4</button>
+            <button id="upload-btn">Submit and Upload Image</button>
         </div>
     </div>
 
-    <!-- Update EmailJS SDK Script -->
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    <script type="text/javascript">
-        (function() {
-            emailjs.init("C-dRLpZWppNwW_DMH"); // Initialize EmailJS with your API key
-        })();
-
-        // Handle form submission
-        document.getElementById('submit-btn').addEventListener('click', function() {
-            const componentTs = document.getElementById('component-ts').value;
-            const componentCss = document.getElementById('component-css').value;
-            const componentTs2 = document.getElementById('component-ts-2').value;
-
-            // Get the subject either from the input or set a default value
-            const subject = document.getElementById('subject').value || "T4 code";
-
-            // Prepare email parameters
-            const timestamp = new Date().toISOString();
-            const templateParams = {
-                from_name: "diahayuiraw@gmail.com", // Your email
-                to_name: "diahayuiraw@gmail.com",  // Recipient email
-                subject: subject, // Use the dynamic subject
-                component_ts: componentTs,
-                component_css: componentCss,
-                component_ts2: componentTs2,
-                submission_time: timestamp
-            };
-
-            // Send email using EmailJS
-            emailjs.send('service_1afpxob', 'template_fiqxaxp', templateParams)
-            .then(function(response) {
-                console.log('SUCCESS!', response.status, response.text);
-                // Redirect to the success page after successful submission
-                window.location.href = "/success";
-            }, function(error) {
-                console.log('FAILED...', error);
-                alert('Failed to send email.');
-            });
+    <script>
+        document.getElementById('upload-btn').addEventListener('click', function() {
+            // Redirect to the Google Form link for uploading the image
+            window.location.href = "https://forms.gle/pMApm7VRkBCAkzZ69";
         });
     </script>
 </body>
