@@ -1,10 +1,148 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Hello!</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You Page</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+            background-color: #f0f0f0;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 1.2em;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+    </style>
 </head>
 <body>
-  <p>Thank you for joining the evaluation!</a></p>
+    <div class="container">
+        <h1>Thank you for everything!</h1>
+        <div class="buttons">
+            <button id="webA">Go to Web A</button>
+            <button id="webB">Go to Web B</button>
+        </div>
+    </div>
+
+    <canvas id="confettiCanvas"></canvas>
+
+    <script>
+        // Redirection on button click
+        document.getElementById('webA').addEventListener('click', function() {
+            window.location.href = 'https://webA.com'; // Change to the actual URL for Web A
+        });
+
+        document.getElementById('webB').addEventListener('click', function() {
+            window.location.href = 'https://webB.com'; // Change to the actual URL for Web B
+        });
+
+        // Confetti animation
+        const canvas = document.getElementById('confettiCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const confettiPieces = [];
+        const numberOfConfetti = 150;
+
+        function ConfettiPiece() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height - canvas.height;
+            this.size = Math.random() * 10 + 5;
+            this.speedX = Math.random() * 3 - 1.5;
+            this.speedY = Math.random() * 5 + 2;
+            this.color = `hsl(${Math.random() * 360}, 100%, 50%)`;
+        }
+
+        ConfettiPiece.prototype.update = function() {
+            this.x += this.speedX;
+            this.y += this.speedY;
+
+            if (this.y > canvas.height) {
+                this.y = -10;
+                this.x = Math.random() * canvas.width;
+            }
+        };
+
+        ConfettiPiece.prototype.draw = function() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fillStyle = this.color;
+            ctx.fill();
+            ctx.closePath();
+        };
+
+        function initConfetti() {
+            for (let i = 0; i < numberOfConfetti; i++) {
+                confettiPieces.push(new ConfettiPiece());
+            }
+        }
+
+        function animateConfetti() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            confettiPieces.forEach(piece => {
+                piece.update();
+                piece.draw();
+            });
+            requestAnimationFrame(animateConfetti);
+        }
+
+        // Initialize confetti animation
+        initConfetti();
+        animateConfetti();
+
+        // Stop confetti after 5 seconds
+        setTimeout(() => {
+            confettiPieces.length = 0;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }, 5000);
+    </script>
 </body>
 </html>
