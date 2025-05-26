@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inclusion Tags Analysis</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 25px 80px rgba(0,0,0,0.4);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                45deg,
+                rgba(255,255,255,0.05) 0px,
+                rgba(255,255,255,0.05) 1px,
+                transparent 1px,
+                transparent 20px
+            );
+            animation: float 20s linear infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateX(-100px) translateY(-100px); }
+            100% { transform: translateX(100px) translateY(100px); }
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 3rem;
+            font-weight: 300;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            margin: 15px 0 0 0;
+            opacity: 0.95;
+            font-size: 1.3rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stats-banner {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 25px;
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+        }
+
+        .stat-item {
+            flex: 1;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+            background: #f8f9fa;
+        }
+
+        .chart-container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            border: 1px solid #e9ecef;
+        }
+
+        .chart-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #e74c3c;
+        }
+
+        .bar {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .bar:hover {
+            opacity: 0.8;
+            transform: translateX(5px);
+        }
+
+        .bar-label {
+            font-size: 14px;
+            font-weight: 500;
+            fill: #2c3e50;
+        }
+
+        .bar-value {
+            font-size: 12px;
+            font-weight: bold;
+            fill: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .axis {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .grid-line {
+            stroke: #e9ecef;
+            stroke-dasharray: 3,3;
+        }
+
+        .insights {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .insight-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+            border-left: 5px solid #e74c3c;
+            transition: transform 0.3s ease;
+        }
+
+        .insight-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .insight-card h3 {
+            margin: 0 0 15px 0;
+            color: #e74c3c;
+            font-size: 1.4rem;
+        }
+
+        .insight-card p {
+            margin: 0;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .tag-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+
+        .tag-item {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        .tag-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+        }
+
+        .tooltip {
+            position: absolute;
+            background: rgba(0,0,0,0.9);
+            color: white;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            z-index: 1000;
+        }
+
+        .methodology {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 30px;
+        }
+
+        .methodology h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .methodology p {
+            margin: 10px 0;
+            color: #555;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Inclusion Tags Analysis</h1>
+            <p>Understanding what themes characterize papers marked for inclusion</p>
+        </div>
+
+        <div class="stats-banner">
+            <div class="stat-item">
+                <div class="stat-number" id="total-papers">50</div>
+                <div class="stat-label">Papers with "inclusion" tag</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="unique-tags">20+</div>
+                <div class="stat-label">Co-occurring tag types</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="top-association">46%</div>
+                <div class="stat-label">Papers also tagged as "best"</div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="chart-container">
+                <div class="chart-title">Tags Co-occurring with "Inclusion" (Top 20)</div>
+                <div id="bar-chart"></div>
+            </div>
+
+            <div class="insights">
+                <div class="insight-card">
+                    <h3>🏆 Quality Indicators</h3>
+                    <p>46% of inclusion papers are also tagged as "best", indicating that included papers tend to be of high quality. This suggests your inclusion criteria effectively identify valuable research contributions.</p>
+                    <div class="tag-cloud">
+                        <div class="tag-item">best (23)</div>
+                        <div class="tag-item">adaptive (9)</div>
+                        <div class="tag-item">review (5)</div>
+                    </div>
+                </div>
+
+                <div class="insight-card">
+                    <h3>🧠 Human-Centered Focus</h3>
+                    <p>38% emphasize Human Factors and 34% address cognitive complexity, showing your included papers prioritize human-centered design in swarm interactions.</p>
+                    <div class="tag-cloud">
+                        <div class="tag-item">Human Factors (19)</div>
+                        <div class="tag-item">cognitive complexity (17)</div>
+                        <div class="tag-item">teaming (12)</div>
+                    </div>
+                </div>
+
+                <div class="insight-card">
+                    <h3>⚙️ Technical Methods</h3>
+                    <p>36% focus on control methods, with strong representation of formation control, communication, and task allocation - core technical challenges in swarm systems.</p>
+                    <div class="tag-cloud">
+                        <div class="tag-item">control method (18)</div>
+                        <div class="tag-item">formation (9)</div>
+                        <div class="tag-item">communication (9)</div>
+                    </div>
+                </div>
+
+                <div class="insight-card">
+                    <h3>🔬 Research Approaches</h3>
+                    <p>20% include user studies and 16% use simulation, indicating a balance between empirical research and computational modeling approaches.</p>
+                    <div class="tag-cloud">
+                        <div class="tag-item">user study (10)</div>
+                        <div class="tag-item">simulation (8)</div>
+                        <div class="tag-item">VR (9)</div>
+                    </div>
+                </div>
+
+                <div class="insight-card">
+                    <h3>🚁 Application Domains</h3>
+                    <p>18% specifically focus on UAV applications, with coverage of gesture control, task allocation, and state visualization for practical implementations.</p>
+                    <div class="tag-cloud">
+                        <div class="tag-item">uav (9)</div>
+                        <div class="tag-item">gesture (8)</div>
+                        <div class="tag-item">Interface (8)</div>
+                    </div>
+                </div>
+
+                <div class="insight-card">
+                    <h3>🤖 Swarm Intelligence</h3>
+                    <p>20% address swarm intelligence concepts, with emphasis on trust, coverage problems, and task allocation - fundamental aspects of multi-agent coordination.</p>
+                    <div class="tag-cloud">
+                        <div class="tag-item">swarm intellegence (10)</div>
+                        <div class="tag-item">Trust (7)</div>
+                        <div class="tag-item">coverage (8)</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="methodology">
+                <h3>📊 Analysis Methodology</h3>
+                <p><strong>Dataset:</strong> 50 papers marked with "inclusion" tag out of 138 total papers in the literature database.</p>
+                <p><strong>Method:</strong> Tag co-occurrence analysis to identify themes that frequently appear alongside inclusion decisions.</p>
+                <p><strong>Key Finding:</strong> Included papers demonstrate a strong focus on human-centered design (57% have human-related tags), technical control methods (36%), and quality research practices (46% marked as "best").</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="tooltip" id="tooltip"></div>
+
+    <script>
+        // Data from analysis
+        const tagData = [
+            {tag: "best", count: 23, percentage: 46},
+            {tag: "Human Factors", count: 19, percentage: 38},
+            {tag: "control method", count: 18, percentage: 36},
+            {tag: "cognitive complexity", count: 17, percentage: 34},
+            {tag: "teaming", count: 12, percentage: 24},
+            {tag: "swarm intellegence", count: 10, percentage: 20},
+            {tag: "user study", count: 10, percentage: 20},
+            {tag: "adaptive", count: 9, percentage: 18},
+            {tag: "formation", count: 9, percentage: 18},
+            {tag: "uav", count: 9, percentage: 18},
+            {tag: "communication", count: 9, percentage: 18},
+            {tag: "VR", count: 9, percentage: 18},
+            {tag: "gesture", count: 8, percentage: 16},
+            {tag: "coverage", count: 8, percentage: 16},
+            {tag: "task allocation", count: 8, percentage: 16},
+            {tag: "simulation", count: 8, percentage: 16},
+            {tag: "state visulaization", count: 8, percentage: 16},
+            {tag: "Interface", count: 8, percentage: 16},
+            {tag: "diah!", count: 7, percentage: 14},
+            {tag: "Trust", count: 7, percentage: 14}
+        ];
+
+        // Chart dimensions
+        const margin = {top: 20, right: 80, bottom: 60, left: 200};
+        const width = 1000 - margin.left - margin.right;
+        const height = 600 - margin.bottom - margin.top;
+
+        // Create SVG
+        const svg = d3.select("#bar-chart")
+            .append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom);
+
+        const g = svg.append("g")
+            .attr("transform", `translate(${margin.left},${margin.top})`);
+
+        // Scales
+        const xScale = d3.scaleLinear()
+            .domain([0, d3.max(tagData, d => d.count)])
+            .range([0, width]);
+
+        const yScale = d3.scaleBand()
+            .domain(tagData.map(d => d.tag))
+            .range([0, height])
+            .padding(0.2);
+
+        // Color scale
+        const colorScale = d3.scaleSequential()
+            .domain([0, d3.max(tagData, d => d.count)])
+            .interpolator(d3.interpolateReds);
+
+        // Add grid lines
+        g.selectAll(".grid-line")
+            .data(xScale.ticks(5))
+            .enter()
+            .append("line")
+            .attr("class", "grid-line")
+            .attr("x1", d => xScale(d))
+            .attr("x2", d => xScale(d))
+            .attr("y1", 0)
+            .attr("y2", height);
+
+        // Create tooltip
+        const tooltip = d3.select("#tooltip");
+
+        // Create bars
+        const bars = g.selectAll(".bar")
+            .data(tagData)
+            .enter()
+            .append("g")
+            .attr("class", "bar");
+
+        bars.append("rect")
+            .attr("x", 0)
+            .attr("y", d => yScale(d.tag))
+            .attr("width", 0)
+            .attr("height", yScale.bandwidth())
+            .attr("fill", d => colorScale(d.count))
+            .attr("rx", 4)
+            .transition()
+            .duration(1000)
+            .delay((d, i) => i * 50)
+            .attr("width", d => xScale(d.count));
+
+        // Add interaction
+        bars.selectAll("rect")
+            .on("mouseover", function(event, d) {
+                d3.select(this).style("opacity", 0.8);
+                tooltip.style("opacity", 1)
+                    .html(`<strong>${d.tag}</strong><br/>
+                           ${d.count} papers (${d.percentage}%)<br/>
+                           Co-occurs with "inclusion" tag`)
+                    .style("left", (event.pageX + 10) + "px")
+                    .style("top", (event.pageY - 10) + "px");
+            })
+            .on("mouseout", function() {
+                d3.select(this).style("opacity", 1);
+                tooltip.style("opacity", 0);
+            });
+
+        // Add value labels on bars
+        bars.append("text")
+            .attr("class", "bar-value")
+            .attr("x", d => xScale(d.count) - 5)
+            .attr("y", d => yScale(d.tag) + yScale.bandwidth()/2)
+            .attr("dy", "0.35em")
+            .attr("text-anchor", "end")
+            .style("opacity", 0)
+            .text(d => d.count)
+            .transition()
+            .duration(1000)
+            .delay((d, i) => i * 50 + 500)
+            .style("opacity", 1);
+
+        // Add tag labels
+        bars.append("text")
+            .attr("class", "bar-label")
+            .attr("x", -10)
+            .attr("y", d => yScale(d.tag) + yScale.bandwidth()/2)
+            .attr("dy", "0.35em")
+            .attr("text-anchor", "end")
+            .text(d => d.tag);
+
+        // Add percentage labels
+        bars.append("text")
+            .attr("class", "bar-value")
+            .attr("x", d => xScale(d.count) + 10)
+            .attr("y", d => yScale(d.tag) + yScale.bandwidth()/2)
+            .attr("dy", "0.35em")
+            .attr("text-anchor", "start")
+            .style("fill", "#666")
+            .style("font-size", "11px")
+            .style("opacity", 0)
+            .text(d => `${d.percentage}%`)
+            .transition()
+            .duration(1000)
+            .delay((d, i) => i * 50 + 750)
+            .style("opacity", 1);
+
+        // Add axes
+        const xAxis = d3.axisBottom(xScale).ticks(5);
+        g.append("g")
+            .attr("class", "axis")
+            .attr("transform", `translate(0,${height})`)
+            .call(xAxis);
+
+        // Add axis labels
+        g.append("text")
+            .attr("x", width / 2)
+            .attr("y", height + 40)
+            .attr("text-anchor", "middle")
+            .style("font-size", "14px")
+            .style("fill", "#666")
+            .text("Number of Papers");
+
+        console.log("Inclusion tags analysis chart created successfully!");
+    </script>
+</body>
+</html>
