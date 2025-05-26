@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Literature Review Flow - Sankey Diagram</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-sankey/0.12.3/d3-sankey.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: 300;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            margin: 10px 0 0 0;
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .chart-container {
+            padding: 40px;
+            background: #f8f9fa;
+        }
+
+        .chart-wrapper {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .sankey-node rect {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .sankey-node rect:hover {
+            opacity: 0.8;
+            transform: translateX(2px);
+        }
+
+        .sankey-link {
+            opacity: 0.6;
+            transition: opacity 0.3s ease;
+        }
+
+        .sankey-link:hover {
+            opacity: 0.9;
+        }
+
+        .clickable-node {
+            cursor: pointer;
+        }
+
+        .clickable-node:hover {
+            filter: brightness(1.1);
+            transform: translateX(2px);
+        }
+
+        .sankey-node text {
+            font-size: 12px;
+            font-weight: 500;
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
+        }
+
+        .legend {
+            display: flex;
+            justify-content: space-around;
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+
+        .legend-section {
+            text-align: center;
+            flex: 1;
+        }
+
+        .legend-section h3 {
+            margin: 0 0 15px 0;
+            color: #2c3e50;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 8px 0;
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 3px;
+            margin-right: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .stats {
+            background: linear-gradient(135deg, #e8f4f8, #d4efe8);
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .stats h3 {
+            margin: 0 0 10px 0;
+            color: #2c3e50;
+        }
+
+        .stats p {
+            margin: 5px 0;
+            color: #555;
+        }
+
+        .tooltip {
+            position: absolute;
+            background: rgba(0,0,0,0.9);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 14px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Literature Review Process Flow</h1>
+            <p>Sources to Inclusion - Sankey Diagram Analysis</p>
+        </div>
+
+        <div class="chart-container">
+            <div class="chart-wrapper">
+                <div id="sankey-chart"></div>
+            </div>
+
+            <div class="legend">
+                <div class="legend-section">
+                    <h3>Source Types</h3>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #e74c3c;"></div>
+                        Journal Articles
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #f39c12;"></div>
+                        Conference Papers
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #9b59b6;"></div>
+                        Preprints
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #1abc9c;"></div>
+                        Books
+                    </div>
+                </div>
+
+                <div class="legend-section">
+                    <h3>Review Stages</h3>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #3498db;"></div>
+                        HSI Included
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #2ecc71;"></div>
+                        SLR Included
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #f1c40f;"></div>
+                        Taxonomy/Initial
+                    </div>
+                </div>
+
+                <div class="legend-section">
+                    <h3>Final Categories</h3>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #27ae60;"></div>
+                        Inclusion ⭐ <em>(Click for details)</em>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #8e44ad;"></div>
+                        Best Papers
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #e67e22;"></div>
+                        Control Methods
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #34495e;"></div>
+                        Other Research
+                    </div>
+                </div>
+            </div>
+
+            <div class="stats">
+                <h3>Literature Database Statistics</h3>
+                <p><strong>138 total papers</strong> processed through systematic review</p>
+                <p><strong>51 Journal Articles</strong> included in HSI category</p>
+                <p><strong>49 papers</strong> marked for final inclusion</p>
+                <p><strong>30 papers</strong> classified as best quality</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="tooltip" id="tooltip"></div>
+
+    <script>
+        // Get the data from the analysis tool
+        const data = window.sankeyData || {
+            nodes: [
+                {id: 0, name: "Journal Article"},
+                {id: 1, name: "HSI Included"},
+                {id: 2, name: "Final: inclusion"},
+                {id: 3, name: "Final: Other Research"},
+                {id: 4, name: "Conference Paper"},
+                {id: 5, name: "Final: best"},
+                {id: 6, name: "Final: control method"},
+                {id: 7, name: "Final: Human Factors"},
+                {id: 8, name: "SLR Included"},
+                {id: 9, name: "Final: gesture"},
+                {id: 10, name: "Preprint"},
+                {id: 11, name: "Final: adaptive"},
+                {id: 12, name: "Taxonomy/Initial Review"},
+                {id: 13, name: "Book"},
+                {id: 14, name: "Final: HSI"},
+                {id: 15, name: "Final: Excluded"},
+                {id: 16, name: "Thesis"}
+            ],
+            links: [
+                {source: 0, target: 1, value: 51},
+                {source: 1, target: 2, value: 49},
+                {source: 1, target: 3, value: 46},
+                {source: 4, target: 1, value: 43},
+                {source: 1, target: 5, value: 30},
+                {source: 1, target: 6, value: 26},
+                {source: 1, target: 7, value: 24},
+                {source: 8, target: 3, value: 16},
+                {source: 1, target: 9, value: 12},
+                {source: 10, target: 1, value: 10},
+                {source: 1, target: 11, value: 10},
+                {source: 0, target: 8, value: 10},
+                {source: 0, target: 12, value: 7},
+                {source: 12, target: 3, value: 6},
+                {source: 13, target: 1, value: 5},
+                {source: 10, target: 8, value: 4},
+                {source: 4, target: 8, value: 4},
+                {source: 12, target: 14, value: 3},
+                {source: 4, target: 12, value: 2},
+                {source: 1, target: 15, value: 2}
+            ]
+        };
+
+        // Set up dimensions
+        const margin = {top: 20, right: 20, bottom: 20, left: 20};
+        const width = 1100 - margin.left - margin.right;
+        const height = 600 - margin.bottom - margin.top;
+
+        // Create SVG
+        const svg = d3.select("#sankey-chart")
+            .append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom);
+
+        const g = svg.append("g")
+            .attr("transform", `translate(${margin.left},${margin.top})`);
+
+        // Create Sankey generator
+        const sankey = d3.sankey()
+            .nodeWidth(20)
+            .nodePadding(40)
+            .extent([[1, 1], [width - 1, height - 6]]);
+
+        // Color schemes for different node types
+        const getNodeColor = (name) => {
+            if (name.includes("Journal Article")) return "#e74c3c";
+            if (name.includes("Conference Paper")) return "#f39c12";
+            if (name.includes("Preprint")) return "#9b59b6";
+            if (name.includes("Book")) return "#1abc9c";
+            if (name.includes("Thesis")) return "#95a5a6";
+            if (name.includes("HSI Included")) return "#3498db";
+            if (name.includes("SLR Included")) return "#2ecc71";
+            if (name.includes("Taxonomy")) return "#f1c40f";
+            if (name.includes("inclusion")) return "#27ae60";
+            if (name.includes("best")) return "#8e44ad";
+            if (name.includes("control method")) return "#e67e22";
+            if (name.includes("Human Factors")) return "#c0392b";
+            if (name.includes("gesture")) return "#16a085";
+            if (name.includes("adaptive")) return "#d35400";
+            if (name.includes("HSI")) return "#2980b9";
+            if (name.includes("Excluded")) return "#7f8c8d";
+            return "#34495e"; // Other Research
+        };
+
+        // Generate the sankey diagram
+        const {nodes, links} = sankey(data);
+
+        // Create tooltip
+        const tooltip = d3.select("#tooltip");
+
+        // Add links
+        const link = g.append("g")
+            .selectAll(".sankey-link")
+            .data(links)
+            .enter().append("path")
+            .attr("class", "sankey-link")
+            .attr("d", d3.sankeyLinkHorizontal())
+            .attr("stroke", d => getNodeColor(d.source.name))
+            .attr("stroke-width", d => Math.max(1, d.width))
+            .attr("fill", "none")
+            .on("mouseover", function(event, d) {
+                d3.select(this).style("opacity", 0.9);
+                tooltip.style("opacity", 1)
+                    .html(`<strong>${d.source.name}</strong><br/>→ <strong>${d.target.name}</strong><br/>Papers: ${d.value}`)
+                    .style("left", (event.pageX + 10) + "px")
+                    .style("top", (event.pageY - 10) + "px");
+            })
+            .on("mouseout", function(event, d) {
+                d3.select(this).style("opacity", 0.6);
+                tooltip.style("opacity", 0);
+            });
+
+        // Add nodes
+        const node = g.append("g")
+            .selectAll(".sankey-node")
+            .data(nodes)
+            .enter().append("g")
+            .attr("class", "sankey-node")
+            .attr("transform", d => `translate(${d.x0},${d.y0})`);
+
+        node.append("rect")
+            .attr("height", d => d.y1 - d.y0)
+            .attr("width", sankey.nodeWidth())
+            .attr("fill", d => getNodeColor(d.name))
+            .attr("stroke", "#fff")
+            .attr("stroke-width", 2)
+            .attr("rx", 4)
+            .style("cursor", d => d.name.includes("inclusion") ? "pointer" : "default")
+            .on("mouseover", function(event, d) {
+                const totalValue = d.sourceLinks.reduce((sum, link) => sum + link.value, 0) || 
+                                 d.targetLinks.reduce((sum, link) => sum + link.value, 0);
+                let tooltipText = `<strong>${d.name}</strong><br/>Total papers: ${totalValue}`;
+                if (d.name.includes("inclusion")) {
+                    tooltipText += "<br/><em>Click to see detailed inclusion analysis</em>";
+                }
+                tooltip.style("opacity", 1)
+                    .html(tooltipText)
+                    .style("left", (event.pageX + 10) + "px")
+                    .style("top", (event.pageY - 10) + "px");
+            })
+            .on("mouseout", function() {
+                tooltip.style("opacity", 0);
+            })
+            .on("click", function(event, d) {
+                if (d.name.includes("inclusion")) {
+                    // Open the inclusion analysis in a new window
+                    window.open("inclusion_tags_analysis.html", "_blank");
+                }
+            });
+
+        // Add node labels
+        node.append("text")
+            .attr("x", d => d.x0 < width / 2 ? sankey.nodeWidth() + 6 : -6)
+            .attr("y", d => (d.y1 + d.y0) / 2)
+            .attr("dy", "0.35em")
+            .attr("text-anchor", d => d.x0 < width / 2 ? "start" : "end")
+            .text(d => d.name.replace("Final: ", ""))
+            .style("font-size", "12px")
+            .style("font-weight", "500")
+            .style("fill", "#2c3e50");
+
+        // Add chart title
+        g.append("text")
+            .attr("x", width / 2)
+            .attr("y", -5)
+            .attr("text-anchor", "middle")
+            .style("font-size", "16px")
+            .style("font-weight", "600")
+            .style("fill", "#2c3e50")
+            .text("Literature Sources → Review Process → Final Classification");
+
+        console.log("Sankey diagram created successfully!");
+    </script>
+</body>
+</html>
